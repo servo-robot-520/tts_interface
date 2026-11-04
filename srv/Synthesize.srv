@@ -1,0 +1,17 @@
+# 只合成、不播放：返回缓存音频的 URI。
+# 结果写入缓存目录，相同参数再次请求直接命中缓存。
+
+tts_interface/TtsText request
+
+---
+# 合成是否成功。
+bool success
+
+# 音频 URI（file://…）；失败时为空。
+string audio_uri
+
+# 音频时长，单位秒；未知时为 0。
+float32 duration
+
+# 失败原因；成功时为空。
+string error

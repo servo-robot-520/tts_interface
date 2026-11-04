@@ -1,0 +1,15 @@
+# 长文本播报：按句合成并提交 audio_io，反馈进度，可取消。
+# 短句/一次性播报用 ~/text；只取音频用 ~/synthesize。
+
+tts_interface/TtsText text
+
+---
+# 本次请求标识；已取消或失败时仍返回，便于日志关联。
+string request_id
+
+---
+# 已完成的比例，0..1。
+float32 progress
+
+# 正在合成/播报的句子；空闲时为空。
+string current_sentence
