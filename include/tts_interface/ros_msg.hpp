@@ -59,8 +59,8 @@ namespace tts_interface {
 
     /// 把默认节点全名限定到调用方 namespace；根 namespace 保持默认名。
     [[nodiscard]] inline std::string qualify_node_fqn(
-            const std::string_view node_namespace,
-            const std::string_view default_node_fqn = detail::kDefaultNodeFqn) {
+            const std::string_view default_node_fqn = detail::kDefaultNodeFqn,
+            const std::string_view node_namespace = "/") {
         const auto base = detail::trim_trailing_slashes(default_node_fqn);
         detail::require_node_fqn(base);
         auto ns = detail::trim_trailing_slashes(node_namespace);
@@ -88,27 +88,27 @@ namespace tts_interface {
     [[nodiscard]] inline std::string topic_text(
             const std::string_view node_fqn = detail::kDefaultNodeFqn,
             const std::string_view node_namespace = "/") {
-        return detail::endpoint_name(qualify_node_fqn(node_namespace, node_fqn), "text");
+        return detail::endpoint_name(qualify_node_fqn(node_fqn, node_namespace), "text");
     }
 
     [[nodiscard]] inline std::string topic_event(
             const std::string_view node_fqn = detail::kDefaultNodeFqn,
             const std::string_view node_namespace = "/") {
-        return detail::endpoint_name(qualify_node_fqn(node_namespace, node_fqn), "event");
+        return detail::endpoint_name(qualify_node_fqn(node_fqn, node_namespace), "event");
     }
 
     /// 外部消费者使用的绝对服务名称。
     [[nodiscard]] inline std::string service_synthesize(
             const std::string_view node_fqn = detail::kDefaultNodeFqn,
             const std::string_view node_namespace = "/") {
-        return detail::endpoint_name(qualify_node_fqn(node_namespace, node_fqn), "synthesize");
+        return detail::endpoint_name(qualify_node_fqn(node_fqn, node_namespace), "synthesize");
     }
 
     /// 外部消费者使用的绝对动作名称。
     [[nodiscard]] inline std::string action_say(
             const std::string_view node_fqn = detail::kDefaultNodeFqn,
             const std::string_view node_namespace = "/") {
-        return detail::endpoint_name(qualify_node_fqn(node_namespace, node_fqn), "say");
+        return detail::endpoint_name(qualify_node_fqn(node_fqn, node_namespace), "say");
     }
 
     // 与生成消息/服务/动作名称一致的简洁类型别名。

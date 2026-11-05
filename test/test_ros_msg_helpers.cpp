@@ -24,8 +24,10 @@ TEST(RosMsgHelpers, BuildsDefaultAbsoluteEndpointNames) {
 }
 
 TEST(RosMsgHelpers, QualifiesDefaultNodeWithNamespace) {
-    EXPECT_EQ(tts_interface::qualify_node_fqn("/"), "/audio_tts");
-    EXPECT_EQ(tts_interface::qualify_node_fqn("/robot_a"), "/robot_a/audio_tts");
+    EXPECT_EQ(tts_interface::qualify_node_fqn(), "/audio_tts");
+    EXPECT_EQ(tts_interface::qualify_node_fqn(
+                      tts_interface::kDefaultNodeFqn, "/robot_a"),
+              "/robot_a/audio_tts");
     EXPECT_EQ(tts_interface::topic_text(tts_interface::kDefaultNodeFqn, "/robot_a"),
               "/robot_a/audio_tts/text");
     EXPECT_EQ(tts_interface::action_say(tts_interface::kDefaultNodeFqn, "/robot_a"),
