@@ -29,29 +29,41 @@ def _normalized_node_fqn(node_fqn: str) -> str:
     return trimmed
 
 
-def _endpoint_name(node_fqn: str, endpoint_suffix: str) -> str:
-    """拼接节点全名与 endpoint 后缀。"""
-    return f"{_normalized_node_fqn(node_fqn)}/{endpoint_suffix}"
+def _endpoint_name(node_fqn: str, endpoint_suffix: str,
+                   node_namespace: str = "/") -> str:
+    """限定节点 FQN 后拼接 endpoint 后缀。"""
+    return f"{qualify_node_fqn(node_namespace, node_fqn)}/{endpoint_suffix}"
 
 
-def topic_text(node_fqn: str = DEFAULT_NODE_FQN) -> str:
+def qualify_node_fqn(node_namespace: str, default_node_fqn: str = DEFAULT_NODE_FQN) -> str:
+    """把默认 tts_node 节点全名限定到调用方 namespace。"""
+    base = _normalized_node_fqn(default_node_fqn)
+    namespace = node_namespace.rstrip("/") or "/"
+    if namespace != "/":
+        namespace = _normalized_node_fqn(namespace)
+    if namespace == "/":
+        return base
+    return _normalized_node_fqn(f"{namespace}{base}")
+
+
+def topic_text(node_fqn: str = DEFAULT_NODE_FQN, node_namespace: str = "/") -> str:
     """返回 fire-and-forget 文本话题的绝对名称。"""
-    return _endpoint_name(node_fqn, "text")
+    return _endpoint_name(node_fqn, "text", node_namespace)
 
 
-def service_synthesize(node_fqn: str = DEFAULT_NODE_FQN) -> str:
+def service_synthesize(node_fqn: str = DEFAULT_NODE_FQN, node_namespace: str = "/") -> str:
     """返回只合成服务的绝对名称。"""
-    return _endpoint_name(node_fqn, "synthesize")
+    return _endpoint_name(node_fqn, "synthesize", node_namespace)
 
 
-def action_say(node_fqn: str = DEFAULT_NODE_FQN) -> str:
+def action_say(node_fqn: str = DEFAULT_NODE_FQN, node_namespace: str = "/") -> str:
     """返回长文本播报动作的绝对名称。"""
-    return _endpoint_name(node_fqn, "say")
+    return _endpoint_name(node_fqn, "say", node_namespace)
 
 
-def topic_event(node_fqn: str = DEFAULT_NODE_FQN) -> str:
+def topic_event(node_fqn: str = DEFAULT_NODE_FQN, node_namespace: str = "/") -> str:
     """返回 TTS 事件话题的绝对名称。"""
-    return _endpoint_name(node_fqn, "event")
+    return _endpoint_name(node_fqn, "event", node_namespace)
 
 
 __all__ = [
@@ -60,6 +72,7 @@ __all__ = [
     "PRIVATE_SERVICE_SYNTHESIZE",
     "PRIVATE_ACTION_SAY",
     "PRIVATE_TOPIC_EVENT",
+    "qualify_node_fqn",
     "topic_text",
     "service_synthesize",
     "action_say",

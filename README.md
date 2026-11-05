@@ -70,6 +70,8 @@ string error
 - `~/...` 是 endpoint owner（`tts_node` 自身）的私有名称。
 - 外部节点必须传递目标节点的完整节点名（FQN），由 helper 生成绝对名称。
 - `node_fqn` 必须是非根绝对 ROS 名称，不能包含 ASCII 空白或中间的空路径段；尾部 `/` 会被移除。
+- 每个 helper 还接受可选的第二个 namespace 参数，内部用 `qualify_node_fqn()` 限定节点名；例如
+  `topic_text(kDefaultNodeFqn, node->get_namespace())`。
 
 默认 FQN 为 `/audio_tts`：
 

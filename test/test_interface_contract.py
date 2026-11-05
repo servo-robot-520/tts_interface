@@ -26,6 +26,8 @@ def test_python_endpoint_helpers() -> None:
     assert ros_msg.action_say() == "/audio_tts/say"
     assert ros_msg.topic_event() == "/audio_tts/event"
     assert ros_msg.topic_text("/robot_a/audio_tts/") == "/robot_a/audio_tts/text"
+    assert ros_msg.qualify_node_fqn("/robot_a") == "/robot_a/audio_tts"
+    assert ros_msg.action_say(ros_msg.DEFAULT_NODE_FQN, "/robot_a") == "/robot_a/audio_tts/say"
 
 
 def test_python_endpoint_helpers_reject_invalid_node_fqn() -> None:
